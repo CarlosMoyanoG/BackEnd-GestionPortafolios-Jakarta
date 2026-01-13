@@ -1,0 +1,76 @@
+package ec.edu.ups.ppw.GestorProyectos.services;
+
+import java.util.List;
+
+import ec.edu.ups.ppw.GestorProyectos.bussines.GestionUsuarios;
+import ec.edu.ups.ppw.GestorProyectos.modelo.Usuario;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
+
+@Path("usuario")
+public class UsuarioService {
+
+    @Inject
+    private GestionUsuarios gu;
+
+    @GET
+    @Produces("application/json")
+    public List<Usuario> getUsuarios() {
+        return gu.getUsuarios();
+    }
+
+    @GET
+    @Path("{id}")
+    @Produces("application/json")
+    public Usuario getUsuario(@PathParam("id") int id) {
+        Usuario u = gu.getUsuarioPorId(id);
+        if (u == null) {
+            throw new WebApplicationException("Usuario no encontrado", Response.Status.NOT_FOUND);
+        }
+        return u;
+    }
+
+    @POST
+    @Consumes("application/json")
+    public Response crearUsuario(Usuario usuario) {
+        if (usuario == null) {
+            throw new WebApplicationException("Datos requeridos", Response.Status.BAD_REQUEST);
+        }
+        if (gu.getUsuarioPorId(usuario.getId()) != null) {
+            throw new WebApplicationException("El usuario ya existe", Response.Status.CONFLICT);
+        }
+        gu.crearUsuario(usuario);
+        return Response.status(Response.Status.CREATED).build();
+    }
+
+    @PUT
+    @Path("{id}")
+    @Consumes("application/json")
+    public Response actualizarUsuario(@PathParam("id") int id, Usuario usuario) {
+        if (gu.getUsuarioPorId(id) == null) {
+            throw new WebApplicationException("Usuario no encontrado", Response.Status.NOT_FOUND);
+        }
+        usuario.setId(id);
+        gu.actualizarUsuario(usuario);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response eliminarUsuario(@PathParam("id") int id) {
+        if (gu.getUsuarioPorId(id) == null) {
+            throw new WebApplicationException("Usuario no encontrado", Response.Status.NOT_FOUND);
+        }
+        gu.eliminarUsuario(id);
+        return Response.ok().build();
+    }
+}

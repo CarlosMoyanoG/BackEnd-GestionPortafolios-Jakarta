@@ -22,17 +22,17 @@ public class UsuarioDAO {
 		em.merge(usuario);
 	}
 	
-	public Usuario readUsuario (String pk) {
+	public Usuario readUsuario (int pk) {
 		return em.find(Usuario.class, pk);
 	}
 	
-	public void deleteUsuario(String pk) {
+	public void deleteUsuario(int pk) {
 		Usuario usuario = em.find(Usuario.class, pk);
 		em.remove(usuario);
 	}
 	
 	public List<Usuario> getAll(){
-		String jpql = "Select u from tbl_Usuario u";
+		String jpql = "Select u from Usuario u";
 		Query q = em.createQuery(jpql, Usuario.class);
 		return q.getResultList();
 	}

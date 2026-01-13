@@ -34,7 +34,6 @@ public class AsesoriaDAO {
     }
 
     public List<Asesoria> getAll() {
-        // Usamos el nombre de la Entidad en el JPQL
         String jpql = "SELECT a FROM Asesoria a";
         Query q = em.createQuery(jpql, Asesoria.class);
         return q.getResultList();
