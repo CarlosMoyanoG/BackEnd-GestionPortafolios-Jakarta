@@ -20,7 +20,7 @@ public class GestionAsesorias {
 	public Asesoria getAsesoriaPorId(int id) {
         return daoAsesoria.readAsesoria(id);
     }
-
+	
     public void crearAsesoria(Asesoria asesoria) {
         daoAsesoria.insertAsesoria(asesoria);
     }
