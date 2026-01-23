@@ -17,7 +17,7 @@ public class GestionProgramadores {
         return daoProgramador.getAll();
     }
 
-    public Programador getProgramadorPorId(int id) {
+    public Programador getProgramadorPorId(Long id) {
         return daoProgramador.readProgramador(id);
     }
 
@@ -29,7 +29,7 @@ public class GestionProgramadores {
         daoProgramador.updateProgramador(programador);
     }
 
-    public void eliminarProgramador(int id) {
+    public void eliminarProgramador(Long id) {
         daoProgramador.deleteProgramador(id);
     }
 }

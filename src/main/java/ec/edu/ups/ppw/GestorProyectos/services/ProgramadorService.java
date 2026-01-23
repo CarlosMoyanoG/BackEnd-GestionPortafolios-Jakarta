@@ -31,7 +31,7 @@ public class ProgramadorService {
     @GET
     @Path("{id}")
     @Produces("application/json")
-    public Programador getProgramador(@PathParam("id") int id) {
+    public Programador getProgramador(@PathParam("id") Long id) {
         Programador p = gp.getProgramadorPorId(id);
         if (p == null) {
             throw new WebApplicationException("Programador no encontrado", Response.Status.NOT_FOUND);
@@ -41,24 +41,35 @@ public class ProgramadorService {
 
     @POST
     @Consumes("application/json")
+    @Produces("application/json")
     public Response crearProgramador(Programador programador) {
         if (programador == null) {
             throw new WebApplicationException("Datos requeridos", Response.Status.BAD_REQUEST);
         }
-        if (gp.getProgramadorPorId(programador.getId()) != null) {
-            throw new WebApplicationException("El programador ya existe", Response.Status.CONFLICT);
+
+        if (programador.getId() != null) {
+            throw new WebApplicationException("No envíes 'id' en POST, se genera automáticamente",
+                    Response.Status.BAD_REQUEST);
         }
+
         gp.crearProgramador(programador);
-        return Response.status(Response.Status.CREATED).build();
+        return Response.status(Response.Status.CREATED).entity(programador).build();
     }
+
 
     @PUT
     @Path("{id}")
     @Consumes("application/json")
-    public Response actualizarProgramador(@PathParam("id") int id, Programador programador) {
-        if (gp.getProgramadorPorId(id) == null) {
+    public Response actualizarProgramador(@PathParam("id") Long id, Programador programador) {
+        if (id == null) {
+            throw new WebApplicationException("Id requerido", Response.Status.BAD_REQUEST);
+        }
+
+        Programador existente = gp.getProgramadorPorId(id);
+        if (existente == null) {
             throw new WebApplicationException("Programador no encontrado", Response.Status.NOT_FOUND);
         }
+
         programador.setId(id);
         gp.actualizarProgramador(programador);
         return Response.ok().build();
@@ -66,7 +77,7 @@ public class ProgramadorService {
 
     @DELETE
     @Path("{id}")
-    public Response eliminarProgramador(@PathParam("id") int id) {
+    public Response eliminarProgramador(@PathParam("id") Long id) {
         if (gp.getProgramadorPorId(id) == null) {
             throw new WebApplicationException("Programador no encontrado", Response.Status.NOT_FOUND);
         }

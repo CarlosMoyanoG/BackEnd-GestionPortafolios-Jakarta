@@ -17,7 +17,7 @@ public class GestionUsuarios {
         return daoUsuario.getAll();
     }
 
-    public Usuario getUsuarioPorId(int id) {
+    public Usuario getUsuarioPorId(Long id) {
         return daoUsuario.readUsuario(id);
     }
 
@@ -29,7 +29,7 @@ public class GestionUsuarios {
         daoUsuario.updateUsuario(usuario);
     }
 
-    public void eliminarUsuario(int id) {
+    public void eliminarUsuario(Long id) {
         daoUsuario.deleteUsuario(id);
     }
 }

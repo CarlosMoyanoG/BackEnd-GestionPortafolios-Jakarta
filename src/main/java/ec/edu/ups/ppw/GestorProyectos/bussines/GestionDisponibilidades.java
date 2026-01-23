@@ -17,7 +17,7 @@ public class GestionDisponibilidades {
         return daoDisponibilidad.getAll();
     }
 
-    public Disponibilidad getDisponibilidadPorId(int id) {
+    public Disponibilidad getDisponibilidadPorId(Long id) {
         return daoDisponibilidad.readDisponibilidad(id);
     }
 
@@ -29,7 +29,7 @@ public class GestionDisponibilidades {
         daoDisponibilidad.updateDisponibilidad(disponibilidad);
     }
 
-    public void eliminarDisponibilidad(int id) {
+    public void eliminarDisponibilidad(Long id) {
         daoDisponibilidad.deleteDisponibilidad(id);
     }
 }

@@ -11,7 +11,7 @@ import jakarta.persistence.Query;
 @Stateless
 public class DisponibilidadDAO {
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "GestorProyectosPersistenceUnit")
     private EntityManager em;
 
     public void insertDisponibilidad(Disponibilidad disponibilidad) {
@@ -22,11 +22,11 @@ public class DisponibilidadDAO {
         em.merge(disponibilidad);
     }
 
-    public Disponibilidad readDisponibilidad(int pk) {
+    public Disponibilidad readDisponibilidad(Long pk) {
         return em.find(Disponibilidad.class, pk);
     }
 
-    public void deleteDisponibilidad(int pk) {
+    public void deleteDisponibilidad(Long pk) {
         Disponibilidad disponibilidad = em.find(Disponibilidad.class, pk);
         if (disponibilidad != null) {
             em.remove(disponibilidad);

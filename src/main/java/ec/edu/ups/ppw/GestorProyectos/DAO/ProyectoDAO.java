@@ -11,7 +11,7 @@ import jakarta.persistence.Query;
 @Stateless
 public class ProyectoDAO {
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "GestorProyectosPersistenceUnit")
     private EntityManager em;
 
     public void insertProyecto(Proyecto proyecto) {
@@ -22,11 +22,11 @@ public class ProyectoDAO {
         em.merge(proyecto);
     }
 
-    public Proyecto readProyecto(int pk) {
+    public Proyecto readProyecto(Long pk) {
         return em.find(Proyecto.class, pk);
     }
 
-    public void deleteProyecto(int pk) {
+    public void deleteProyecto(Long pk) {
         Proyecto proyecto = em.find(Proyecto.class, pk);
         if (proyecto != null) {
             em.remove(proyecto);

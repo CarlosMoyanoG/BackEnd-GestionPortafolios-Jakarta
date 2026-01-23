@@ -11,7 +11,7 @@ import jakarta.persistence.Query;
 @Stateless
 public class ProgramadorDAO {
 	
-	@PersistenceContext
+	@PersistenceContext(unitName = "GestorProyectosPersistenceUnit")
 	private EntityManager em;
 		
 	public void insertProgramador(Programador programador) {
@@ -22,11 +22,11 @@ public class ProgramadorDAO {
 		em.merge(programador);
 	}
 	
-	public Programador readProgramador(int pk) {
+	public Programador readProgramador(Long pk) {
 		return em.find(Programador.class, pk);
 	}
 	
-	public void deleteProgramador(int pk){
+	public void deleteProgramador(Long pk){
 		Programador prog = em.find(Programador.class, pk);
 		
 		if (prog != null) {

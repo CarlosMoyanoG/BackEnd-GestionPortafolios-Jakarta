@@ -9,18 +9,18 @@ import jakarta.inject.Inject;
 
 @Stateless
 public class GestionAsesorias {
-	
-	@Inject
-	private AsesoriaDAO daoAsesoria;
-	
-	public List<Asesoria> getAsesoria(){
-		return daoAsesoria.getAll();
-	}
-	
-	public Asesoria getAsesoriaPorId(int id) {
+
+    @Inject
+    private AsesoriaDAO daoAsesoria;
+
+    public List<Asesoria> getAsesoria() {
+        return daoAsesoria.getAll();
+    }
+
+    public Asesoria getAsesoriaPorId(Long id) {
         return daoAsesoria.readAsesoria(id);
     }
-	
+
     public void crearAsesoria(Asesoria asesoria) {
         daoAsesoria.insertAsesoria(asesoria);
     }
@@ -29,7 +29,7 @@ public class GestionAsesorias {
         daoAsesoria.updateAsesoria(asesoria);
     }
 
-    public void eliminarAsesoria(int id) {
+    public void eliminarAsesoria(Long id) {
         daoAsesoria.deleteAsesoria(id);
     }
 }

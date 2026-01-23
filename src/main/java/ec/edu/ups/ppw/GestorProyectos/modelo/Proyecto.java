@@ -2,23 +2,16 @@ package ec.edu.ups.ppw.GestorProyectos.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tbl_Proyecto")
 public class Proyecto {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "proy_id")
-    private int id;
+    private Long id;
 
     @Column(name = "proy_nombre")
     private String nombre;
@@ -27,10 +20,10 @@ public class Proyecto {
     private String descripcion;
 
     @Column(name = "proy_seccion")
-    private String seccion; // academico o laboral
+    private String seccion;
 
     @Column(name = "proy_participacion")
-    private String participacion; // Frontend - Backend - Base de Datos - Fullstack
+    private String participacion;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "tbl_Proyecto_Tecnologias", joinColumns = @JoinColumn(name = "proy_id"))
@@ -43,71 +36,29 @@ public class Proyecto {
     @Column(name = "proy_demoUrl")
     private String demoUrl;
 
-    public Proyecto() {
-    }
+    public Proyecto() {}
 
-    // Getters y Setters
-    public int getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public String getNombre() {
-        return nombre;
-    }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public String getSeccion() { return seccion; }
+    public void setSeccion(String seccion) { this.seccion = seccion; }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+    public String getParticipacion() { return participacion; }
+    public void setParticipacion(String participacion) { this.participacion = participacion; }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+    public List<String> getTecnologias() { return tecnologias; }
+    public void setTecnologias(List<String> tecnologias) { this.tecnologias = tecnologias; }
 
-    public String getSeccion() {
-        return seccion;
-    }
+    public String getRepoUrl() { return repoUrl; }
+    public void setRepoUrl(String repoUrl) { this.repoUrl = repoUrl; }
 
-    public void setSeccion(String seccion) {
-        this.seccion = seccion;
-    }
-
-    public String getParticipacion() {
-        return participacion;
-    }
-
-    public void setParticipacion(String participacion) {
-        this.participacion = participacion;
-    }
-
-    public List<String> getTecnologias() {
-        return tecnologias;
-    }
-
-    public void setTecnologias(List<String> tecnologias) {
-        this.tecnologias = tecnologias;
-    }
-
-    public String getRepoUrl() {
-        return repoUrl;
-    }
-
-    public void setRepoUrl(String repoUrl) {
-        this.repoUrl = repoUrl;
-    }
-
-    public String getDemoUrl() {
-        return demoUrl;
-    }
-
-    public void setDemoUrl(String demoUrl) {
-        this.demoUrl = demoUrl;
-    }
+    public String getDemoUrl() { return demoUrl; }
+    public void setDemoUrl(String demoUrl) { this.demoUrl = demoUrl; }
 }

@@ -17,7 +17,7 @@ public class GestionProyectos {
         return daoProyecto.getAll();
     }
 
-    public Proyecto getProyectoPorId(int id) {
+    public Proyecto getProyectoPorId(Long id) {
         return daoProyecto.readProyecto(id);
     }
 
@@ -29,7 +29,7 @@ public class GestionProyectos {
         daoProyecto.updateProyecto(proyecto);
     }
 
-    public void eliminarProyecto(int id) {
+    public void eliminarProyecto(Long id) {
         daoProyecto.deleteProyecto(id);
     }
 }

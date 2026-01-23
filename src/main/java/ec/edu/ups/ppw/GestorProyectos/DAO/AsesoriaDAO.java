@@ -11,7 +11,7 @@ import jakarta.persistence.Query;
 @Stateless
 public class AsesoriaDAO {
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "GestorProyectosPersistenceUnit")
     private EntityManager em;
 
     public void insertAsesoria(Asesoria asesoria) {
@@ -22,11 +22,11 @@ public class AsesoriaDAO {
         em.merge(asesoria);
     }
 
-    public Asesoria readAsesoria(int pk) {
+    public Asesoria readAsesoria(Long pk) {
         return em.find(Asesoria.class, pk);
     }
 
-    public void deleteAsesoria(int pk) {
+    public void deleteAsesoria(Long pk) {
         Asesoria asesoria = em.find(Asesoria.class, pk);
         if (asesoria != null) {
             em.remove(asesoria);

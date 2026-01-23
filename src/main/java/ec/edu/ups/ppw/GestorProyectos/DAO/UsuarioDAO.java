@@ -10,30 +10,32 @@ import jakarta.persistence.Query;
 
 @Stateless
 public class UsuarioDAO {
-	
-	@PersistenceContext //El nombre de la unidad de persistencia es opcional
-	private EntityManager em;
-	
-	public void insertUsuario(Usuario usuario) {
-		em.persist(usuario);
-	}
-	
-	public void updateUsuario(Usuario usuario) {
-		em.merge(usuario);
-	}
-	
-	public Usuario readUsuario (int pk) {
-		return em.find(Usuario.class, pk);
-	}
-	
-	public void deleteUsuario(int pk) {
-		Usuario usuario = em.find(Usuario.class, pk);
-		em.remove(usuario);
-	}
-	
-	public List<Usuario> getAll(){
-		String jpql = "Select u from Usuario u";
-		Query q = em.createQuery(jpql, Usuario.class);
-		return q.getResultList();
-	}
+
+    @PersistenceContext(unitName = "GestorProyectosPersistenceUnit")
+    private EntityManager em;
+
+    public void insertUsuario(Usuario usuario) {
+        em.persist(usuario);
+    }
+
+    public void updateUsuario(Usuario usuario) {
+        em.merge(usuario);
+    }
+
+    public Usuario readUsuario(Long pk) {
+        return em.find(Usuario.class, pk);
+    }
+
+    public void deleteUsuario(Long pk) {
+        Usuario usuario = em.find(Usuario.class, pk);
+        if (usuario != null) {
+            em.remove(usuario);
+        }
+    }
+
+    public List<Usuario> getAll() {
+        String jpql = "SELECT u FROM Usuario u";
+        Query q = em.createQuery(jpql, Usuario.class);
+        return q.getResultList();
+    }
 }

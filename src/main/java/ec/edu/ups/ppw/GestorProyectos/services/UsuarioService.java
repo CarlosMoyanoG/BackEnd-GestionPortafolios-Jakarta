@@ -5,15 +5,7 @@ import java.util.List;
 import ec.edu.ups.ppw.GestorProyectos.bussines.GestionUsuarios;
 import ec.edu.ups.ppw.GestorProyectos.modelo.Usuario;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
 @Path("usuario")
@@ -31,7 +23,7 @@ public class UsuarioService {
     @GET
     @Path("{id}")
     @Produces("application/json")
-    public Usuario getUsuario(@PathParam("id") int id) {
+    public Usuario getUsuario(@PathParam("id") Long id) {
         Usuario u = gu.getUsuarioPorId(id);
         if (u == null) {
             throw new WebApplicationException("Usuario no encontrado", Response.Status.NOT_FOUND);
@@ -41,24 +33,29 @@ public class UsuarioService {
 
     @POST
     @Consumes("application/json")
+    @Produces("application/json")
     public Response crearUsuario(Usuario usuario) {
         if (usuario == null) {
             throw new WebApplicationException("Datos requeridos", Response.Status.BAD_REQUEST);
         }
-        if (gu.getUsuarioPorId(usuario.getId()) != null) {
-            throw new WebApplicationException("El usuario ya existe", Response.Status.CONFLICT);
+
+        if (usuario.getId() != null) {
+            throw new WebApplicationException("No envíes 'id' en POST, se genera automáticamente",
+                    Response.Status.BAD_REQUEST);
         }
+
         gu.crearUsuario(usuario);
-        return Response.status(Response.Status.CREATED).build();
+        return Response.status(Response.Status.CREATED).entity(usuario).build();
     }
 
     @PUT
     @Path("{id}")
     @Consumes("application/json")
-    public Response actualizarUsuario(@PathParam("id") int id, Usuario usuario) {
+    public Response actualizarUsuario(@PathParam("id") Long id, Usuario usuario) {
         if (gu.getUsuarioPorId(id) == null) {
             throw new WebApplicationException("Usuario no encontrado", Response.Status.NOT_FOUND);
         }
+
         usuario.setId(id);
         gu.actualizarUsuario(usuario);
         return Response.ok().build();
@@ -66,10 +63,11 @@ public class UsuarioService {
 
     @DELETE
     @Path("{id}")
-    public Response eliminarUsuario(@PathParam("id") int id) {
+    public Response eliminarUsuario(@PathParam("id") Long id) {
         if (gu.getUsuarioPorId(id) == null) {
             throw new WebApplicationException("Usuario no encontrado", Response.Status.NOT_FOUND);
         }
+
         gu.eliminarUsuario(id);
         return Response.ok().build();
     }

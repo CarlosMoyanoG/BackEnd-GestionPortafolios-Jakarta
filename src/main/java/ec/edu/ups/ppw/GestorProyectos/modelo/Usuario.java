@@ -1,96 +1,48 @@
 package ec.edu.ups.ppw.GestorProyectos.modelo;
-import java.util.ArrayList;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name  = "tbl_Usuario")
+@Table(name = "tbl_Usuario")
 public class Usuario {
-    
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usu_id")
-    int id;
-    
-    @Column(name = "usu_opcionesRol")
-    ArrayList<String> opcionesRol = new ArrayList<>();
-    
+    private Long id;
+
     @Column(name = "usu_nombre")
-    String nombre;
-    
+    private String nombre;
+
     @Column(name = "usu_mail")
-    String email;
-    
+    private String email;
+
     @Column(name = "usu_rol")
-    String rol;
-    
+    private String rol;
+
     @Column(name = "usu_progId")
-    int programadorId;
-    
+    private Long programadorId;
+
     @Column(name = "usu_fotoUrl")
-    String fotoUrl;
-    
-    public Usuario() {
-        opcionesRol.add("visitante");
-        opcionesRol.add("admin");
-        opcionesRol.add("programador");
-    }
+    private String fotoUrl;
 
-    public ArrayList<String> getOpcionesRol() {
-        return opcionesRol;
-    }
+    public Usuario() {}
 
-    public void setOpcionesRol(ArrayList<String> opcionesRol) {
-        this.opcionesRol = opcionesRol;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public int getId() {
-        return id;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getNombre() {
-        return nombre;
-    }
+    public String getRol() { return rol; }
+    public void setRol(String rol) { this.rol = rol; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public Long getProgramadorId() { return programadorId; }
+    public void setProgramadorId(Long programadorId) { this.programadorId = programadorId; }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }
-
-    public int getProgramadorId() {
-        return programadorId;
-    }
-
-    public void setProgramadorId(int programadorId) {
-        this.programadorId = programadorId;
-    }
-
-    public String getFotoUrl() {
-        return fotoUrl;
-    }
-
-    public void setFotoUrl(String fotoUrl) {
-        this.fotoUrl = fotoUrl;
-    }
+    public String getFotoUrl() { return fotoUrl; }
+    public void setFotoUrl(String fotoUrl) { this.fotoUrl = fotoUrl; }
 }

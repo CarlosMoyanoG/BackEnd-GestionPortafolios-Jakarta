@@ -1,20 +1,18 @@
 package ec.edu.ups.ppw.GestorProyectos.modelo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tbl_Disponibilidad")
 public class Disponibilidad {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dis_id")
-    private int id;
+    private Long id;
 
     @Column(name = "dis_progId")
-    private int programadorId;
+    private Long programadorId;
 
     @Column(name = "dis_tipo")
     private String tipo; // 'recurrente' | 'bloqueo' | 'puntual'
@@ -37,79 +35,32 @@ public class Disponibilidad {
     @Column(name = "dis_hora")
     private String hora;
 
-    public Disponibilidad() {
-    }
+    public Disponibilidad() {}
 
-    // Getters y Setters
-    public int getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public Long getProgramadorId() { return programadorId; }
+    public void setProgramadorId(Long programadorId) { this.programadorId = programadorId; }
 
-    public int getProgramadorId() {
-        return programadorId;
-    }
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public void setProgramadorId(int programadorId) {
-        this.programadorId = programadorId;
-    }
+    public String getModalidad() { return modalidad; }
+    public void setModalidad(String modalidad) { this.modalidad = modalidad; }
 
-    public String getTipo() {
-        return tipo;
-    }
+    public Integer getDiaSemana() { return diaSemana; }
+    public void setDiaSemana(Integer diaSemana) { this.diaSemana = diaSemana; }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+    public String getFecha() { return fecha; }
+    public void setFecha(String fecha) { this.fecha = fecha; }
 
-    public String getModalidad() {
-        return modalidad;
-    }
+    public String getHoraInicio() { return horaInicio; }
+    public void setHoraInicio(String horaInicio) { this.horaInicio = horaInicio; }
 
-    public void setModalidad(String modalidad) {
-        this.modalidad = modalidad;
-    }
+    public String getHoraFin() { return horaFin; }
+    public void setHoraFin(String horaFin) { this.horaFin = horaFin; }
 
-    public Integer getDiaSemana() {
-        return diaSemana;
-    }
-
-    public void setDiaSemana(Integer diaSemana) {
-        this.diaSemana = diaSemana;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getHoraInicio() {
-        return horaInicio;
-    }
-
-    public void setHoraInicio(String horaInicio) {
-        this.horaInicio = horaInicio;
-    }
-
-    public String getHoraFin() {
-        return horaFin;
-    }
-
-    public void setHoraFin(String horaFin) {
-        this.horaFin = horaFin;
-    }
-
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
+    public String getHora() { return hora; }
+    public void setHora(String hora) { this.hora = hora; }
 }
