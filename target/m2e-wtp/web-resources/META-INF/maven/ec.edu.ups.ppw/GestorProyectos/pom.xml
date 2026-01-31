@@ -115,7 +115,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <!--Define the JUnit5 bom. WildFly BOM still contains JUnit4, so we have to declare a version here -->
             <dependency>
                 <groupId>org.junit</groupId>
@@ -208,6 +207,12 @@
             <artifactId>arquillian-junit5-container</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <dependency>
+		  <groupId>com.google.firebase</groupId>
+		  <artifactId>firebase-admin</artifactId>
+		  <version>9.2.0</version>
+		</dependency>
 
     </dependencies>
 

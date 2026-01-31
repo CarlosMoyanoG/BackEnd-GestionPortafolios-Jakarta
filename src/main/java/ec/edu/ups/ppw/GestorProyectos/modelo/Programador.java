@@ -19,7 +19,7 @@ public class Programador {
     @Column(name = "pro_especialidad")
     private String especialidad;
 
-    @Column(name = "pro_descripcion")
+    @Column(name = "pro_descripcion", length = 1000)
     private String descripcion;
 
     @Column(name = "pro_fotoUrl")

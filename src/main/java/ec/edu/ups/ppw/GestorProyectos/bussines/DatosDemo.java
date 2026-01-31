@@ -27,7 +27,7 @@ public class DatosDemo {
 
     @PostConstruct
     public void init() {
-        System.out.println("Seeder: insertando datos de prueba...");
+        System.out.println("Server levantado");
 
 
     }

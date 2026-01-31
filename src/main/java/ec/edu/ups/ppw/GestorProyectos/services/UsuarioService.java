@@ -13,6 +13,19 @@ public class UsuarioService {
 
     @Inject
     private GestionUsuarios gu;
+    
+    private void validarRolYProgramadorId(Usuario usuario) {
+        if (usuario.getRol() == null) return;
+
+        if (!usuario.getRol().equals("programador")) {
+            usuario.setProgramadorId(null);
+        } else {
+            if (usuario.getProgramadorId() == null) {
+                throw new WebApplicationException("programadorId requerido para rol programador",
+                        Response.Status.BAD_REQUEST);
+            }
+        }
+    }
 
     @GET
     @Produces("application/json")
@@ -43,7 +56,8 @@ public class UsuarioService {
             throw new WebApplicationException("No envíes 'id' en POST, se genera automáticamente",
                     Response.Status.BAD_REQUEST);
         }
-
+        
+        validarRolYProgramadorId(usuario);
         gu.crearUsuario(usuario);
         return Response.status(Response.Status.CREATED).entity(usuario).build();
     }
@@ -57,6 +71,7 @@ public class UsuarioService {
         }
 
         usuario.setId(id);
+        validarRolYProgramadorId(usuario);
         gu.actualizarUsuario(usuario);
         return Response.ok().build();
     }
@@ -71,4 +86,7 @@ public class UsuarioService {
         gu.eliminarUsuario(id);
         return Response.ok().build();
     }
+    
+    
+
 }
