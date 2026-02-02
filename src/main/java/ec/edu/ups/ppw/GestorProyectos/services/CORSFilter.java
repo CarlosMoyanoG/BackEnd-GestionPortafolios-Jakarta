@@ -12,19 +12,22 @@ public class CORSFilter implements ContainerResponseFilter {
     public void filter(ContainerRequestContext requestContext,
                        ContainerResponseContext responseContext) {
 
-        responseContext.getHeaders().add(
-            "Access-Control-Allow-Origin", "http://localhost:4200"
+        String allowedOrigin = System.getenv("FRONTEND_ORIGIN");
+
+        if (allowedOrigin == null || allowedOrigin.isBlank()) {
+            allowedOrigin = "http://localhost:4200";
+        }
+
+        responseContext.getHeaders().putSingle("Access-Control-Allow-Origin", allowedOrigin);
+        responseContext.getHeaders().putSingle(
+                "Access-Control-Allow-Headers",
+                "origin, content-type, accept, authorization"
         );
-        responseContext.getHeaders().add(
-            "Access-Control-Allow-Headers",
-            "origin, content-type, accept, authorization"
+        responseContext.getHeaders().putSingle(
+                "Access-Control-Allow-Methods",
+                "GET, POST, PUT, DELETE, OPTIONS, HEAD"
         );
-        responseContext.getHeaders().add(
-            "Access-Control-Allow-Methods",
-            "GET, POST, PUT, DELETE, OPTIONS, HEAD"
-        );
-        responseContext.getHeaders().add(
-            "Access-Control-Allow-Credentials", "true"
-        );
+
+        responseContext.getHeaders().putSingle("Access-Control-Allow-Credentials", "true");
     }
 }

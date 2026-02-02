@@ -17,6 +17,12 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
+    	
+    	String path = requestContext.getUriInfo().getPath();
+    	
+    	if (path.equals("health")) {
+            return;
+        }
 
         if ("OPTIONS".equalsIgnoreCase(requestContext.getMethod())) {
             return;
@@ -37,6 +43,7 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
 
         try {
             FirebaseInitializer.init();
+
             FirebaseToken decoded = FirebaseAuth.getInstance().verifyIdToken(token);
 
             requestContext.setProperty("firebaseUid", decoded.getUid());
