@@ -22,6 +22,9 @@ RUN mkdir -p /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main
 
 ADD https://jdbc.postgresql.org/download/postgresql-42.7.3.jar \
     /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/postgresql-42.7.3.jar
+	
+RUN jar tf /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/postgresql-42.7.3.jar > /dev/null
+
 
 # FIX: usar módulos javax.* para que WildFly cargue el driver correctamente
 RUN cat > /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/module.xml <<'EOF'
