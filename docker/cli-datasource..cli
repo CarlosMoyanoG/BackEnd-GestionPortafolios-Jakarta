@@ -1,0 +1,19 @@
+# Crear datasource si no existe
+if (outcome != success) of /subsystem=datasources/data-source=ProyectoPortafolioDS:read-resource
+  data-source add \
+    --name=ProyectoPortafolioDS \
+    --jndi-name=java:jboss/datasources/ProyectoPortafolioDS \
+    --driver-name=postgresql-42.7.3.jar \
+    --connection-url=jdbc:postgresql://${env.DB_HOST}:${env.DB_PORT}/${env.DB_NAME}?sslmode=require \
+    --user-name=${env.DB_USER} \
+    --password=${env.DB_PASSWORD} \
+    --min-pool-size=1 \
+    --max-pool-size=10 \
+    --check-valid-connection-sql="SELECT 1" \
+    --validate-on-match=true \
+    --background-validation=true \
+    --enabled=true
+end-if
+
+# Probar conexión (si falla, aquí lo verás)
+#/subsystem=datasources/data-source=ProyectoPortafolioDS:test-connection-in-pool

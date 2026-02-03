@@ -4,32 +4,31 @@ set -euo pipefail
 PORT_TO_USE="${PORT:-8080}"
 echo "Using PORT=${PORT_TO_USE}"
 
-# 1) Arrancar WildFly
+# Arrancar WildFly en el puerto que Render asigna
 /opt/jboss/wildfly/bin/standalone.sh -b 0.0.0.0 -Djboss.http.port="${PORT_TO_USE}" &
 WF_PID=$!
 
-# 2) Esperar WildFly
+# Esperar hasta que WildFly esté RUNNING
 until /opt/jboss/wildfly/bin/jboss-cli.sh -c ":read-attribute(name=server-state)" | grep -q running; do
   echo "Waiting for WildFly..."
   sleep 2
 done
 
-echo "WildFly is running. Configuring datasource..."
+echo "WildFly is running. Creating datasource..."
 
-# 3) Configurar datasource
-/opt/jboss/wildfly/bin/jboss-cli.sh -c --file=/opt/jboss/wildfly/cli-configure-ds.cli
+# Crear datasource (driver ya está en deployments)
+ /opt/jboss/wildfly/bin/jboss-cli.sh -c --file=/opt/jboss/wildfly/cli-datasource.cli
 
-echo "Datasource configured. Deploying WAR as ROOT..."
+echo "Datasource OK. Deploying WAR..."
 
-# 4) Deploy como ROOT.war para que quede en /
 DEPLOY_DIR="/opt/jboss/wildfly/standalone/deployments"
 
-rm -f "${DEPLOY_DIR}/ROOT.war"* 2>/dev/null || true
+# Limpia flags de deploy previos
+rm -f "${DEPLOY_DIR}/GestorProyectos.war."* 2>/dev/null || true
 
-cp /opt/jboss/wildfly/app.war "${DEPLOY_DIR}/ROOT.war"
-touch "${DEPLOY_DIR}/ROOT.war.dodeploy"
+cp /opt/jboss/wildfly/GestorProyectos.war "${DEPLOY_DIR}/GestorProyectos.war"
+touch "${DEPLOY_DIR}/GestorProyectos.war.dodeploy"
 
-echo "ROOT.war deploy trigger created."
+echo "WAR deploy triggered."
 
-# 5) Mantener proceso principal
 wait "${WF_PID}"
