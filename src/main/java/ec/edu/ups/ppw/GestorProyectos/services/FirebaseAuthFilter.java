@@ -20,7 +20,7 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
     	
     	String path = requestContext.getUriInfo().getPath();
     	
-    	if (path.equals("health")) {
+    	if (path.endsWith("health")) {
             return;
         }
 

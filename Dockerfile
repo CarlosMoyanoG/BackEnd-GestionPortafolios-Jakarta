@@ -37,7 +37,7 @@ RUN cat > /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/modu
 EOF
 
 # --- Copiar WAR pero NO desplegar todavía ---
-COPY --from=build /app/target/*.war /opt/jboss/wildfly/standalone/deployments/app.war
+COPY --from=build /app/target/*.war /opt/jboss/wildfly/app.war
 
 # --- Scripts ---
 COPY docker/cli-configure-ds.cli /opt/jboss/wildfly/cli-configure-ds.cli
