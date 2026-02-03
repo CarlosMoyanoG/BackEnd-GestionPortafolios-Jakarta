@@ -17,14 +17,9 @@ FROM quay.io/wildfly/wildfly:27.0.1.Final-jdk17
 
 USER root
 
-# --- Driver PostgreSQL como módulo ---
-RUN mkdir -p /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main
-
+# --- PostgreSQL JDBC como deployment (SIN módulos) ---
 ADD https://jdbc.postgresql.org/download/postgresql-42.7.3.jar \
-    /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/postgresql-42.7.3.jar
-	
-RUN jar tf /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/postgresql-42.7.3.jar > /dev/null
-
+    /opt/jboss/wildfly/standalone/deployments/postgresql.jar
 
 # FIX: usar módulos javax.* para que WildFly cargue el driver correctamente
 RUN cat > /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/module.xml <<'EOF'

@@ -1,17 +1,17 @@
 # =========================
-# CLI conectado (NO usar embed-server aquí)
+# JDBC Driver (SIN módulo)
 # =========================
-
-# --- Driver PostgreSQL (módulo ya creado en Dockerfile) ---
 if (outcome != success) of /subsystem=datasources/jdbc-driver=postgresql:read-resource
   /subsystem=datasources/jdbc-driver=postgresql:add( \
     driver-name=postgresql, \
-    driver-module-name=org.postgresql, \
-    driver-class-name=org.postgresql.Driver \
+    driver-class-name=org.postgresql.Driver, \
+    driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource \
   )
 end-if
 
-# --- Datasource: NOMBRE y JNDI deben coincidir con persistence.xml ---
+# =========================
+# Datasource
+# =========================
 if (outcome != success) of /subsystem=datasources/data-source=ProyectoPortafolioDS:read-resource
   data-source add \
     --name=ProyectoPortafolioDS \
@@ -22,8 +22,8 @@ if (outcome != success) of /subsystem=datasources/data-source=ProyectoPortafolio
     --password=${env.DB_PASSWORD} \
     --min-pool-size=1 \
     --max-pool-size=10 \
+    --check-valid-connection-sql="SELECT 1" \
     --validate-on-match=true \
     --background-validation=true \
-    --check-valid-connection-sql="SELECT 1" \
     --enabled=true
 end-if
