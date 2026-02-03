@@ -1,7 +1,8 @@
-embed-server --std-out=echo --server-config=standalone.xml
+# =========================
+# CLI conectado (NO usar embed-server aquí)
+# =========================
 
-# Driver PostgreSQL (usa el módulo que creas en el Dockerfile)
-# driver-name=postgresql  (este nombre luego lo usa el datasource)
+# --- Driver PostgreSQL (módulo ya creado en Dockerfile) ---
 if (outcome != success) of /subsystem=datasources/jdbc-driver=postgresql:read-resource
   /subsystem=datasources/jdbc-driver=postgresql:add( \
     driver-name=postgresql, \
@@ -10,7 +11,7 @@ if (outcome != success) of /subsystem=datasources/jdbc-driver=postgresql:read-re
   )
 end-if
 
-# Datasource: NOMBRE y JNDI deben coincidir con persistence.xml
+# --- Datasource: NOMBRE y JNDI deben coincidir con persistence.xml ---
 if (outcome != success) of /subsystem=datasources/data-source=ProyectoPortafolioDS:read-resource
   data-source add \
     --name=ProyectoPortafolioDS \
@@ -21,7 +22,11 @@ if (outcome != success) of /subsystem=datasources/data-source=ProyectoPortafolio
     --password=${env.DB_PASSWORD} \
     --min-pool-size=1 \
     --max-pool-size=10 \
+    --validate-on-match=true \
+    --background-validation=true \
+    --check-valid-connection-sql="SELECT 1" \
     --enabled=true
 end-if
 
-stop-embedded-server
+# (Opcional) Mostrar para debug que sí existe:
+# /subsystem=datasources/data-source=ProyectoPortafolioDS:read-resource(include-runtime=true)
