@@ -23,6 +23,7 @@ RUN mkdir -p /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main
 ADD https://jdbc.postgresql.org/download/postgresql-42.7.3.jar \
     /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/postgresql-42.7.3.jar
 
+# FIX: usar módulos javax.* para que WildFly cargue el driver correctamente
 RUN cat > /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/module.xml <<'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <module xmlns="urn:jboss:module:1.9" name="org.postgresql">
@@ -30,8 +31,8 @@ RUN cat > /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/modu
     <resource-root path="postgresql-42.7.3.jar"/>
   </resources>
   <dependencies>
-    <module name="jakarta.api"/>
-    <module name="jakarta.transaction.api"/>
+    <module name="javax.api"/>
+    <module name="javax.transaction.api"/>
   </dependencies>
 </module>
 EOF

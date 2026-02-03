@@ -27,6 +27,3 @@ if (outcome != success) of /subsystem=datasources/data-source=ProyectoPortafolio
     --check-valid-connection-sql="SELECT 1" \
     --enabled=true
 end-if
-
-# (Opcional) Mostrar para debug que sí existe:
-# /subsystem=datasources/data-source=ProyectoPortafolioDS:read-resource(include-runtime=true)
