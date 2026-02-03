@@ -38,7 +38,6 @@ EOF
 
 # --- Copiar WAR pero NO desplegar todavía ---
 COPY --from=build /app/target/*.war /opt/jboss/wildfly/standalone/deployments/app.war
-RUN touch /opt/jboss/wildfly/standalone/deployments/app.war.skipdeploy
 
 # --- Scripts ---
 COPY docker/cli-configure-ds.cli /opt/jboss/wildfly/cli-configure-ds.cli
