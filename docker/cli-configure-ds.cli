@@ -1,6 +1,7 @@
 embed-server --std-out=echo --server-config=standalone.xml
 
-# Registrar driver si no existe
+# Driver PostgreSQL (usa el módulo que creas en el Dockerfile)
+# driver-name=postgresql  (este nombre luego lo usa el datasource)
 if (outcome != success) of /subsystem=datasources/jdbc-driver=postgresql:read-resource
   /subsystem=datasources/jdbc-driver=postgresql:add( \
     driver-name=postgresql, \
@@ -9,11 +10,11 @@ if (outcome != success) of /subsystem=datasources/jdbc-driver=postgresql:read-re
   )
 end-if
 
-# Crear datasource si no existe
-if (outcome != success) of /subsystem=datasources/data-source=ProyectoPortafoliosDS:read-resource
+# Datasource: NOMBRE y JNDI deben coincidir con persistence.xml
+if (outcome != success) of /subsystem=datasources/data-source=ProyectoPortafolioDS:read-resource
   data-source add \
-    --name=ProyectoPortafoliosDS \
-    --jndi-name=java:jboss/datasources/ProyectoPortafoliosDS \
+    --name=ProyectoPortafolioDS \
+    --jndi-name=java:jboss/datasources/ProyectoPortafolioDS \
     --driver-name=postgresql \
     --connection-url=jdbc:postgresql://${env.DB_HOST}:${env.DB_PORT}/${env.DB_NAME} \
     --user-name=${env.DB_USER} \
