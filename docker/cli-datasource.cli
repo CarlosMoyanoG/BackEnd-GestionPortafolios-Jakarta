@@ -1,19 +1,25 @@
-# Crear datasource si no existe
+# 1) Registrar driver desde el módulo org.postgresql
+if (outcome != success) of /subsystem=datasources/jdbc-driver=postgresql:read-resource
+  /subsystem=datasources/jdbc-driver=postgresql:add( \
+    driver-name=postgresql, \
+    driver-module-name=org.postgresql, \
+    driver-class-name=org.postgresql.Driver \
+  )
+end-if
+
+# 2) Crear datasource
 if (outcome != success) of /subsystem=datasources/data-source=ProyectoPortafolioDS:read-resource
   data-source add \
     --name=ProyectoPortafolioDS \
     --jndi-name=java:jboss/datasources/ProyectoPortafolioDS \
-    --driver-name=postgresql-42.7.3.jar \
-    --connection-url=jdbc:postgresql://${env.DB_HOST}:${env.DB_PORT}/${env.DB_NAME}?sslmode=require \
+    --driver-name=postgresql \
+    --connection-url=jdbc:postgresql://${env.DB_HOST}:${env.DB_PORT}/${env.DB_NAME} \
     --user-name=${env.DB_USER} \
     --password=${env.DB_PASSWORD} \
     --min-pool-size=1 \
     --max-pool-size=10 \
-    --check-valid-connection-sql="SELECT 1" \
     --validate-on-match=true \
     --background-validation=true \
+    --check-valid-connection-sql="SELECT 1" \
     --enabled=true
 end-if
-
-# Probar conexión (si falla, aquí lo verás)
-#/subsystem=datasources/data-source=ProyectoPortafolioDS:test-connection-in-pool
