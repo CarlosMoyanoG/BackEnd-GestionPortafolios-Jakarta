@@ -27,18 +27,19 @@ RUN mkdir -p /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main
 ADD https://jdbc.postgresql.org/download/postgresql-42.7.3.jar \
     /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/postgresql-42.7.3.jar
 
-RUN bash -c 'cat > /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/module.xml << "EOF"\n\
-<?xml version="1.0" encoding="UTF-8"?>\n\
-<module xmlns="urn:jboss:module:1.9" name="org.postgresql">\n\
-  <resources>\n\
-    <resource-root path="postgresql-42.7.3.jar"/>\n\
-  </resources>\n\
-  <dependencies>\n\
-    <module name="javax.api"/>\n\
-    <module name="javax.transaction.api"/>\n\
-  </dependencies>\n\
-</module>\n\
-EOF'
+# ✅ module.xml correcto (heredoc real, sin \n\)
+RUN cat > /opt/jboss/wildfly/modules/system/layers/base/org/postgresql/main/module.xml <<'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.9" name="org.postgresql">
+  <resources>
+    <resource-root path="postgresql-42.7.3.jar"/>
+  </resources>
+  <dependencies>
+    <module name="javax.api"/>
+    <module name="javax.transaction.api"/>
+  </dependencies>
+</module>
+EOF
 
 # --- Copiar el WAR generado en el stage build ---
 # OJO: esto toma el WAR real que Maven produce (sea cual sea el nombre)
