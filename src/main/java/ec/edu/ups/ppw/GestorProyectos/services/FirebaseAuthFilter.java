@@ -17,18 +17,17 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
-    	
-    	String path = requestContext.getUriInfo().getPath();
-    	
-    	if (path.endsWith("health")) {
-            return;
-        }
 
-        if ("OPTIONS".equalsIgnoreCase(requestContext.getMethod())) {
-            return;
-        }
+        String path = requestContext.getUriInfo().getPath();
 
-        String authHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+        // Health check libre
+        if (path.endsWith("health")) return;
+
+        // Preflight CORS
+        if ("OPTIONS".equalsIgnoreCase(requestContext.getMethod())) return;
+
+        String authHeader =
+            requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             requestContext.abortWith(
@@ -44,9 +43,13 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
         try {
             FirebaseInitializer.init();
 
-            FirebaseToken decoded = FirebaseAuth.getInstance().verifyIdToken(token);
+            FirebaseToken decoded =
+                FirebaseAuth.getInstance().verifyIdToken(token);
 
-            requestContext.setProperty("firebaseUid", decoded.getUid());
+            requestContext.setProperty(
+                "firebaseUid",
+                decoded.getUid()
+            );
 
         } catch (Exception e) {
             requestContext.abortWith(

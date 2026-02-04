@@ -1,7 +1,6 @@
 package ec.edu.ups.ppw.GestorProyectos.services;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
+import java.io.FileInputStream;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -15,15 +14,16 @@ public class FirebaseInitializer {
         if (initialized) return;
 
         try {
-            String json = System.getenv("FIREBASE_CREDENTIALS_JSON");
+            String credentialsPath = System.getenv("FIREBASE_CREDENTIALS_PATH");
 
-            if (json == null || json.isBlank()) {
-                throw new RuntimeException("No se encontró la variable de entorno FIREBASE_CREDENTIALS_JSON");
+            if (credentialsPath == null || credentialsPath.isBlank()) {
+                throw new RuntimeException(
+                    "No se encontró la variable de entorno FIREBASE_CREDENTIALS_PATH"
+                );
             }
 
-            GoogleCredentials credentials = GoogleCredentials.fromStream(
-                new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8))
-            );
+            GoogleCredentials credentials =
+                GoogleCredentials.fromStream(new FileInputStream(credentialsPath));
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(credentials)
@@ -36,7 +36,9 @@ public class FirebaseInitializer {
             initialized = true;
 
         } catch (Exception e) {
-            throw new RuntimeException("Error inicializando Firebase: " + e.getMessage(), e);
+            throw new RuntimeException(
+                "Error inicializando Firebase: " + e.getMessage(), e
+            );
         }
     }
 }
